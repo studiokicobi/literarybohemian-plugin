@@ -1,15 +1,12 @@
 <?php
 
 /*
-
 Plugin Name: Custom Functions for The Literary Bohemian
-
 */
 
 
-/*
- * Create Poetry Custom Post Type
- */
+/* Create Poetry Custom Post Type
+   ------------------------------------------------------------------ */
 function poetry_init()
 {
 	$args = array(
@@ -41,9 +38,8 @@ function poetry_init()
 add_action('init', 'poetry_init');
 
 
-/*
- * Create Postcard Prose Custom Post Type
- */
+/* Create Postcard Prose Custom Post Type
+   ------------------------------------------------------------------ */
 function postcard_prose_init()
 {
 	$args = array(
@@ -75,9 +71,8 @@ function postcard_prose_init()
 add_action('init', 'postcard_prose_init');
 
 
-/*
- * Create Travel Notes Custom Post Type
- */
+/* Create Travel Notes Custom Post Type
+   ------------------------------------------------------------------ */
 function travel_notes_init()
 {
 	$args = array(
@@ -109,9 +104,8 @@ function travel_notes_init()
 add_action('init', 'travel_notes_init');
 
 
-/*
- * Create Author Bio Custom Post Type
- */
+/* Create Author Bio Custom Post Type
+   ------------------------------------------------------------------ */
 function bio_init()
 {
 	$args = array(
@@ -142,9 +136,8 @@ function bio_init()
 add_action('init', 'bio_init');
 
 
-/*
- * Create Book Reviews Custom Post Type
- */
+/* Create Book Reviews Custom Post Type
+   ------------------------------------------------------------------ */
 function book_reviews_init()
 {
 	$args = array(
@@ -175,9 +168,8 @@ function book_reviews_init()
 add_action('init', 'book_reviews_init');
 
 
-/*
- * Create Logbook Custom Post Type
- */
+/* Create Logbook Custom Post Type
+   ------------------------------------------------------------------ */
 function logbook_init()
 {
 	$args = array(
@@ -209,72 +201,71 @@ function logbook_init()
 add_action('init', 'logbook_init');
 
 
-/*
- * Hide posts from Dashboard. We only use Custom Post Types.
- */
-function lb_remove_menus()
-{
+// /*
+//  * Hide posts from Dashboard. We only use Custom Post Types.
+//  */
+// function lb_remove_menus()
+// {
+//
+// 	// remove_menu_page( 'index.php' );                  //Dashboard
+// 	// remove_menu_page( 'jetpack' );                    //Jetpack
+// 	remove_menu_page('edit.php');                   	 //Posts
+// 	// remove_menu_page( 'upload.php' );                 //Media
+// 	//remove_menu_page('edit.php?post_type=page');       //Pages
+// 	remove_menu_page('edit-comments.php');          	 //Comments
+// 	// remove_menu_page( 'themes.php' );                 //Appearance
+// 	// remove_menu_page( 'plugins.php' );                //Plugins
+// 	// remove_menu_page( 'users.php' );                  //Users
+// 	// remove_menu_page( 'tools.php' );                  //Tools
+// 	// remove_menu_page( 'options-general.php' );        //Settings
+//
+// }
+// add_action('admin_menu', 'lb_remove_menus');
 
-	// remove_menu_page( 'index.php' );                  //Dashboard
-	// remove_menu_page( 'jetpack' );                    //Jetpack
-	remove_menu_page('edit.php');                   	 //Posts
-	// remove_menu_page( 'upload.php' );                 //Media
-	//remove_menu_page('edit.php?post_type=page');       //Pages
-	remove_menu_page('edit-comments.php');          	 //Comments
-	// remove_menu_page( 'themes.php' );                 //Appearance
-	// remove_menu_page( 'plugins.php' );                //Plugins
-	// remove_menu_page( 'users.php' );                  //Users
-	// remove_menu_page( 'tools.php' );                  //Tools
-	// remove_menu_page( 'options-general.php' );        //Settings
 
-}
-add_action('admin_menu', 'lb_remove_menus');
-
-
-/*
- * Reorder the dashboard menu items
- */
-function custom_menu_order($menu_ord)
-{
-	if (!$menu_ord) return true;
-	return array(
-		'index.php', // Dashboard
-		'upload.php', // Media
-
-		'themes.php', // Appearance
-		'plugins.php', // Plugins
-		'users.php', // Users
-		'tools.php', // Tools
-		'options-general.php', // Settings
-
-		// 'edit.php?post_type=poetry', // Poetry
-		'edit.php?post_type=page' // Pages
-
-	);
-}
-add_filter('custom_menu_order', 'custom_menu_order');
-add_filter('menu_order', 'custom_menu_order');
+// /*
+//  * Reorder the dashboard menu items
+//  */
+// function custom_menu_order($menu_ord)
+// {
+// 	if (!$menu_ord) return true;
+// 	return array(
+// 		'index.php', // Dashboard
+// 		'upload.php', // Media
+//
+// 		'themes.php', // Appearance
+// 		'plugins.php', // Plugins
+// 		'users.php', // Users
+// 		'tools.php', // Tools
+// 		'options-general.php', // Settings
+//
+// 		// 'edit.php?post_type=poetry', // Poetry
+// 		'edit.php?post_type=page' // Pages
+//
+// 	);
+// }
+// add_filter('custom_menu_order', 'custom_menu_order');
+// add_filter('menu_order', 'custom_menu_order');
 
 
 /*
  * Rename Dashboard menu items
  */
-add_filter('gettext', 'change_post_to_article');
-add_filter('ngettext', 'change_post_to_article');
+// add_filter('gettext', 'change_post_to_article');
+// add_filter('ngettext', 'change_post_to_article');
+//
+// function change_post_to_article($translated)
+// {
+// 	$translated = str_replace('Dashboard', 'Home', $translated);
+// 	$translated = str_replace('Page', 'Static Page', $translated);
+// 	return $translated;
+// }
 
-function change_post_to_article($translated)
-{
-	$translated = str_replace('Dashboard', 'Home', $translated);
-	$translated = str_replace('Page', 'Static Page', $translated);
-	return $translated;
-}
 
-
-/*
- * Add custom field column to dashboard
- */
-
-// Add author name to Poetry, Postcard Prose, and Travel Notes custom post type lists
+/* Add custom field column to dashboard:
+ * add the author name to Poetry, Postcard Prose,
+ * and Travel Notes custom post type lists.
+   ------------------------------------------------------------------ */
 
 function add_acf_columns($columns)
 {
@@ -283,6 +274,7 @@ function add_acf_columns($columns)
 	));
 }
 // Poetry
+// ------------------------------------------------------------------ */
 add_filter('manage_poetry_posts_columns', 'add_acf_columns');
 
 function poetry_custom_column($column, $post_id)
@@ -296,6 +288,7 @@ function poetry_custom_column($column, $post_id)
 add_action('manage_poetry_posts_custom_column', 'poetry_custom_column', 10, 2);
 
 // Postcard Prose
+// ------------------------------------------------------------------ */
 add_filter('manage_postcard_prose_posts_columns', 'add_acf_columns');
 
 function postcard_prose_custom_column($column, $post_id)
@@ -309,6 +302,7 @@ function postcard_prose_custom_column($column, $post_id)
 add_action('manage_postcard_prose_posts_custom_column', 'postcard_prose_custom_column', 10, 2);
 
 // Travel Notes
+// ------------------------------------------------------------------ */
 add_filter('manage_travel_notes_posts_columns', 'add_acf_columns');
 
 function travel_notes_custom_column($column, $post_id)
@@ -322,9 +316,8 @@ function travel_notes_custom_column($column, $post_id)
 add_action('manage_travel_notes_posts_custom_column', 'travel_notes_custom_column', 10, 2);
 
 
-/*
- * Remove columns from dashboard
- */
+/* Remove columns from dashboard
+   ------------------------------------------------------------------ */
 function my_manage_columns($columns)
 {
 	unset($columns['comments']);
