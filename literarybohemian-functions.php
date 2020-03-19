@@ -19,7 +19,7 @@ function poetry_init()
 		'query_var' => true,
 		'menu_icon' => 'dashicons-editor-alignleft',
 		'taxonomies'  => array('category'),
-		//'show_in_rest' => true,
+		//'show_in_rest' => true, // true = Gutenberg, but we're leaving this out for now.
 		'supports' => array(
 			'title',
 			'editor',
@@ -201,67 +201,6 @@ function logbook_init()
 add_action('init', 'logbook_init');
 
 
-// /*
-//  * Hide posts from Dashboard. We only use Custom Post Types.
-//  */
-// function lb_remove_menus()
-// {
-//
-// 	// remove_menu_page( 'index.php' );                  //Dashboard
-// 	// remove_menu_page( 'jetpack' );                    //Jetpack
-// 	remove_menu_page('edit.php');                   	 //Posts
-// 	// remove_menu_page( 'upload.php' );                 //Media
-// 	//remove_menu_page('edit.php?post_type=page');       //Pages
-// 	remove_menu_page('edit-comments.php');          	 //Comments
-// 	// remove_menu_page( 'themes.php' );                 //Appearance
-// 	// remove_menu_page( 'plugins.php' );                //Plugins
-// 	// remove_menu_page( 'users.php' );                  //Users
-// 	// remove_menu_page( 'tools.php' );                  //Tools
-// 	// remove_menu_page( 'options-general.php' );        //Settings
-//
-// }
-// add_action('admin_menu', 'lb_remove_menus');
-
-
-// /*
-//  * Reorder the dashboard menu items
-//  */
-// function custom_menu_order($menu_ord)
-// {
-// 	if (!$menu_ord) return true;
-// 	return array(
-// 		'index.php', // Dashboard
-// 		'upload.php', // Media
-//
-// 		'themes.php', // Appearance
-// 		'plugins.php', // Plugins
-// 		'users.php', // Users
-// 		'tools.php', // Tools
-// 		'options-general.php', // Settings
-//
-// 		// 'edit.php?post_type=poetry', // Poetry
-// 		'edit.php?post_type=page' // Pages
-//
-// 	);
-// }
-// add_filter('custom_menu_order', 'custom_menu_order');
-// add_filter('menu_order', 'custom_menu_order');
-
-
-/*
- * Rename Dashboard menu items
- */
-// add_filter('gettext', 'change_post_to_article');
-// add_filter('ngettext', 'change_post_to_article');
-//
-// function change_post_to_article($translated)
-// {
-// 	$translated = str_replace('Dashboard', 'Home', $translated);
-// 	$translated = str_replace('Page', 'Static Page', $translated);
-// 	return $translated;
-// }
-
-
 /* Add custom field column to dashboard:
  * add the author name to Poetry, Postcard Prose,
  * and Travel Notes custom post type lists.
@@ -330,5 +269,72 @@ function my_column_init()
 	add_filter('manage_posts_columns', 'my_manage_columns');
 }
 add_action('admin_init', 'my_column_init');
+
+
+
+
+
+
+// /*
+//  * Hide posts from Dashboard. We only use Custom Post Types.
+//  */
+// function lb_remove_menus()
+// {
+//
+// 	// remove_menu_page( 'index.php' );                  //Dashboard
+// 	// remove_menu_page( 'jetpack' );                    //Jetpack
+// 	remove_menu_page('edit.php');                   	 //Posts
+// 	// remove_menu_page( 'upload.php' );                 //Media
+// 	//remove_menu_page('edit.php?post_type=page');       //Pages
+// 	remove_menu_page('edit-comments.php');          	 //Comments
+// 	// remove_menu_page( 'themes.php' );                 //Appearance
+// 	// remove_menu_page( 'plugins.php' );                //Plugins
+// 	// remove_menu_page( 'users.php' );                  //Users
+// 	// remove_menu_page( 'tools.php' );                  //Tools
+// 	// remove_menu_page( 'options-general.php' );        //Settings
+//
+// }
+// add_action('admin_menu', 'lb_remove_menus');
+
+
+// /*
+//  * Reorder the dashboard menu items
+//  */
+// function custom_menu_order($menu_ord)
+// {
+// 	if (!$menu_ord) return true;
+// 	return array(
+// 		'index.php', // Dashboard
+// 		'upload.php', // Media
+//
+// 		'themes.php', // Appearance
+// 		'plugins.php', // Plugins
+// 		'users.php', // Users
+// 		'tools.php', // Tools
+// 		'options-general.php', // Settings
+//
+// 		// 'edit.php?post_type=poetry', // Poetry
+// 		'edit.php?post_type=page' // Pages
+//
+// 	);
+// }
+// add_filter('custom_menu_order', 'custom_menu_order');
+// add_filter('menu_order', 'custom_menu_order');
+
+
+/*
+ * Rename Dashboard menu items
+ */
+// add_filter('gettext', 'change_post_to_article');
+// add_filter('ngettext', 'change_post_to_article');
+//
+// function change_post_to_article($translated)
+// {
+// 	$translated = str_replace('Dashboard', 'Home', $translated);
+// 	$translated = str_replace('Page', 'Static Page', $translated);
+// 	return $translated;
+// }
+
+
 
 ?>
