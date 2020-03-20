@@ -12,6 +12,7 @@ function poetry_init()
 	$args = array(
 		'label' => 'Poetry',
 		'public' => true,
+		'has_archive' => true,
 		'show_ui' => true,
 		'capability_type' => 'post',
 		'hierarchical' => false,
@@ -45,6 +46,7 @@ function postcard_prose_init()
 	$args = array(
 		'label' => 'Postcard Prose',
 		'public' => true,
+		'has_archive' => true,
 		'show_ui' => true,
 		'capability_type' => 'post',
 		'hierarchical' => false,
