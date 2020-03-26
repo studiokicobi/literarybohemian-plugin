@@ -5,6 +5,15 @@ Plugin Name: Custom Functions for The Literary Bohemian
 */
 
 
+/* Add Adobe fonts: Grad, three weights, Sofia Pro Semi-bold
+   ------------------------------------------------------------------ */
+function add_adobe_fonts() {
+	wp_enqueue_style( 'adobe_fonts', 'https://use.typekit.net/kzw7rfp.css' );
+}
+
+add_action( 'wp_enqueue_scripts', 'add_adobe_fonts' );
+
+
 /* Create Poetry Custom Post Type
    ------------------------------------------------------------------ */
 function poetry_init()
