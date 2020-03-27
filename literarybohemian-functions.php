@@ -17,16 +17,18 @@ add_action( 'wp_enqueue_scripts', 'add_adobe_fonts' );
 
 /* Add menus
    ------------------------------------------------------------------ */
-function register_tlb_menus() {
-register_nav_menus(
-array(
- 'additional-menu' => __( 'Secondary Menu' ),
- 'another-menu' => __( 'Tertiary Menu' ),
- 'extra-menu' => __( 'Social Channels' )
- )
- );
-}
-add_action( 'init', 'register_tlb_menus' );
+
+	 function register_tlb_menus() {
+		 register_nav_menus(
+			 array(
+				 'menu-1' => esc_html__( 'Primary', 'literarybohemian' ),
+				 'menu-2' => esc_html__( 'Secondary Menu', 'literarybohemian' ),
+				 'menu-3' => esc_html__( 'Tertiary Menu', 'literarybohemian' ),
+				 'menu-4' => esc_html__( 'Social Channels', 'literarybohemian' )
+			 )
+		 );
+	 }
+	 add_action( 'init', 'register_tlb_menus' );
 
 
 /* Create Poetry Custom Post Type
