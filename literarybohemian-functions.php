@@ -17,6 +17,11 @@ add_action( 'wp_enqueue_scripts', 'add_adobe_fonts' );
 
 /* Add menus
    ------------------------------------------------------------------ */
+
+	 if (function_exists('add_theme_support')) {
+		 add_theme_support('nav-menus');
+	 }
+
 	 function tlb_menus() {
 		 register_nav_menus(
 			 array(
