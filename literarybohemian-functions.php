@@ -25,10 +25,10 @@ add_action( 'wp_enqueue_scripts', 'add_adobe_fonts' );
 	 function tlb_menus() {
 		 register_nav_menus(
 			 array(
-				 'menu-1' => 'Primary',
-				 'menu-2' => 'Secondary Menu',
-				 'menu-3' => 'Tertiary Menu',
-				 'menu-4' => 'Social Channels'
+				 'menu-1' => esc_html__( 'Primary', 'literarybohemian' ),
+				 'menu-2' => esc_html__( 'Secondary Menu', 'literarybohemian' ),
+				 'menu-3' => esc_html__( 'Tertiary Menu', 'literarybohemian' ),
+				 'menu-4' => esc_html__( 'Social Channels', 'literarybohemian' )
 			 )
 		 );
 	 }
