@@ -14,6 +14,21 @@ function add_adobe_fonts() {
 add_action( 'wp_enqueue_scripts', 'add_adobe_fonts' );
 
 
+
+/* Add menus
+   ------------------------------------------------------------------ */
+function register_tlb_menus() {
+register_nav_menus(
+array(
+ 'additional-menu' => __( 'Secondary Menu' ),
+ 'another-menu' => __( 'Tertiary Menu' ),
+ 'extra-menu' => __( 'Social Channels' )
+ )
+ );
+}
+add_action( 'init', 'register_tlb_menus' );
+
+
 /* Create Poetry Custom Post Type
    ------------------------------------------------------------------ */
 function poetry_init()
