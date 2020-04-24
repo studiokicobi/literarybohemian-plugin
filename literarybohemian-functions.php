@@ -49,7 +49,7 @@ function poetry_init()
 		'rewrite' => array('slug' => 'poetry'),
 		'query_var' => true,
 		'menu_icon' => 'dashicons-editor-alignleft',
-		'taxonomies'  => array('category'),
+		'taxonomies'  => array('category', 'post_tag'),
 		//'show_in_rest' => true, // true = Gutenberg, but we're leaving this out for now.
 		'supports' => array(
 			'title',
@@ -83,7 +83,7 @@ function postcard_prose_init()
 		'rewrite' => array('slug' => 'postcard-prose'),
 		'query_var' => true,
 		'menu_icon' => 'dashicons-editor-paragraph',
-		'taxonomies'  => array('category'),
+		'taxonomies'  => array('category', 'post_tag'),
 		//'show_in_rest' => true,
 		'supports' => array(
 			'title',
@@ -116,7 +116,7 @@ function travel_notes_init()
 		'rewrite' => array('slug' => 'travel-notes'),
 		'query_var' => true,
 		'menu_icon' => 'dashicons-location-alt',
-		'taxonomies'  => array('category'),
+		'taxonomies'  => array('category', 'post_tag'),
 		//'show_in_rest' => true,
 		'supports' => array(
 			'title',
