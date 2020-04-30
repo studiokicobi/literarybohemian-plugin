@@ -303,6 +303,26 @@ function my_column_init()
 add_action('admin_init', 'my_column_init');
 
 
+/* Add custom post types to the default tag query
+   ------------------------------------------------------------------ */
+/**
+ * This will make sure that the custom post types shows up in the tag archive pages.
+ * The idea here is to list both normal posts and cpt named doc under the same tag name.
+ *
+ * @refer https://wordpress.stackexchange.com/a/285162/90061
+ */
+
+function add_cpt_to_taxonomy_archive( $query ) {
+
+  if ( is_tag() && $query->is_archive() && empty( $query->query_vars['suppress_filters'] ) ) {
+
+  $query->set( 'post_type', array(
+       'post', 'postcard_prose', 'poetry', 'travel_notes',
+    ));
+  }
+  return $query;
+}
+add_filter( 'pre_get_posts', 'add_cpt_to_taxonomy_archive' );
 
 
 
