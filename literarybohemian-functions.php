@@ -317,7 +317,7 @@ function add_cpt_to_taxonomy_archive( $query ) {
   if ( is_tag() && $query->is_archive() && empty( $query->query_vars['suppress_filters'] ) ) {
 
   $query->set( 'post_type', array(
-       'post', 'postcard_prose', 'poetry', 'travel_notes',
+       'post', 'postcard_prose', 'poetry', 'travel_notes'
     ));
   }
   return $query;
@@ -342,7 +342,7 @@ function destination_unknown_template() {
 			'post_type' => array('poetry', 'postcard_prose', 'travel_notes'),
 			'post_status' => 'publish',
 			'orderby' => 'rand',
-			'numberposts' => '1',
+			'numberposts' => '1'
 		));
 		foreach($posts as $post) {
 			$link = get_permalink($post);
