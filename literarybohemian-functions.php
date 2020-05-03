@@ -325,33 +325,32 @@ function add_cpt_to_taxonomy_archive( $query ) {
 add_filter( 'pre_get_posts', 'add_cpt_to_taxonomy_archive' );
 
 
-
 /* Create destination unknown links (used in header)
    ------------------------------------------------------------------ */
-// add_action('init','destination_unknown_add_rewrite');
-// function destination_unknown_add_rewrite() {
-// 	global $wp;
-// 	$wp->add_query_var('destination-unknown');
-// 	add_rewrite_rule('destination-unknown/?$', 'index.php?destination-unknown=1', 'top');
-// }
-//
-// add_action('template_redirect','destination_unknown_template');
-// function destination_unknown_template() {
-// 	if (get_query_var('destination-unknown') == 1) {
-//
-// 		$posts = get_posts( array(
-// 			'post_type' => array('poetry', 'postcard_prose', 'travel_notes',),
-// 			'post_status' => 'publish',
-// 			'orderby' => 'rand',
-// 			'numberposts' => '1',
-// 		));
-// 		foreach($posts as $post) {
-// 			$link = get_permalink($post);
-// 		}
-// 		wp_redirect($link,307);
-// 		exit;
-// 	}
-// }
+add_action('init','destination_unknown_add_rewrite');
+function destination_unknown_add_rewrite() {
+	global $wp;
+	$wp->add_query_var('destination-unknown');
+	add_rewrite_rule('destination-unknown/?$', 'index.php?destination-unknown=1', 'top');
+}
+
+add_action('template_redirect','destination_unknown_template');
+function destination_unknown_template() {
+	if (get_query_var('destination-unknown') == 1) {
+
+		$posts = get_posts( array(
+			'post_type' => array('poetry', 'postcard_prose', 'travel_notes',),
+			'post_status' => 'publish',
+			'orderby' => 'rand',
+			'numberposts' => '1',
+		));
+		foreach($posts as $post) {
+			$link = get_permalink($post);
+		}
+		wp_redirect($link,307);
+		exit;
+	}
+}
 
 
 // /*
