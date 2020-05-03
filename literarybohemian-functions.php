@@ -339,7 +339,7 @@ function destination_unknown_template() {
 	if (get_query_var('destination-unknown') == 1) {
 
 		$posts = get_posts( array(
-			'post_type' => array('poetry', 'postcard_prose', 'travel_notes',),
+			'post_type' => array('poetry', 'postcard_prose', 'travel_notes'),
 			'post_status' => 'publish',
 			'orderby' => 'rand',
 			'numberposts' => '1',
