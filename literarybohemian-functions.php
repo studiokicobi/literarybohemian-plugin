@@ -317,7 +317,7 @@ function add_cpt_to_taxonomy_archive( $query ) {
   if ( is_tag() && $query->is_archive() && empty( $query->query_vars['suppress_filters'] ) ) {
 
   $query->set( 'post_type', array(
-       'post', 'postcard_prose', 'poetry', 'travel_notes'
+       'post', 'postcard_prose', 'poetry', 'travel_notes',
     ));
   }
   return $query;
@@ -325,21 +325,22 @@ function add_cpt_to_taxonomy_archive( $query ) {
 add_filter( 'pre_get_posts', 'add_cpt_to_taxonomy_archive' );
 
 
+
 /* Create destination unknown links (used in header)
    ------------------------------------------------------------------ */
-function destination_unknown_rewrite() {
-	// global $wp;
-	// $wp->add_query_var('destination-unknown');
-	add_rewrite_rule('destination-unknown', 'index.php?destination-unknown=1', 'top');
+add_action('init','destination_unknown_add_rewrite');
+function destination_unknown_add_rewrite() {
+	global $wp;
+	$wp->add_query_var('destination-unknown');
+	add_rewrite_rule('destination-unknown/?$', 'index.php?destination-unknown=1', 'top');
 }
-add_action('init','destination_unknown_rewrite', 10, 0);
 
 
-// function custom_rewrite_rule() {
-//     add_rewrite_rule('destination-unknown','index.php?page_id=12&food=$matches[1]&variety=$matches[2]','top');
-//   }
-//   add_action('init', 'custom_rewrite_rule', 10, 0);
-//
+// function destination_unknown_rewrite() {
+// 	add_rewrite_rule('destination-unknown', 'index.php?destination-unknown=1', 'top');
+// }
+// add_action('init','destination_unknown_rewrite', 10, 0);
+
 
 
 add_action('template_redirect','destination_unknown_template');
@@ -347,15 +348,15 @@ function destination_unknown_template() {
 	if (get_query_var('destination-unknown') == 1) {
 
 		$posts = get_posts( array(
-			'post_type' => array('poetry', 'postcard_prose', 'travel_notes'),
+			'post_type' => array('poetry', 'postcard_prose', 'travel_notes',),
 			'post_status' => 'publish',
 			'orderby' => 'rand',
-			'numberposts' => '1'
+			'numberposts' => '1',
 		));
 		foreach($posts as $post) {
-			$randlink = get_permalink($post);
+			$link = get_permalink($post);
 		}
-		wp_redirect($randlink,307);
+		wp_redirect($link,307);
 		exit;
 	}
 }
