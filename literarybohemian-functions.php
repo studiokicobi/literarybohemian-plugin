@@ -327,8 +327,8 @@ add_filter( 'pre_get_posts', 'add_cpt_to_taxonomy_archive' );
 
 /* Create destination unknown links (used in header)
    ------------------------------------------------------------------ */
-add_action('init','destination_unknown_add_rewrite');
-function destination_unknown_add_rewrite() {
+add_action('init','destination_unknown_rewrite');
+function destination_unknown_rewrite() {
 	global $wp;
 	$wp->add_query_var('destination-unknown');
 	add_rewrite_rule('destination-unknown/?$', 'index.php?destination-unknown=1', 'top');
