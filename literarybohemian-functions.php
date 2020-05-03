@@ -354,8 +354,6 @@ function destination_unknown_template() {
 }
 
 
-
-
 // /*
 //  * Hide posts from Dashboard. We only use Custom Post Types.
 //  */
