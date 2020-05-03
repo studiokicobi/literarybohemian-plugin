@@ -327,12 +327,20 @@ add_filter( 'pre_get_posts', 'add_cpt_to_taxonomy_archive' );
 
 /* Create destination unknown links (used in header)
    ------------------------------------------------------------------ */
-add_action('init','destination_unknown_rewrite');
 function destination_unknown_rewrite() {
-	global $wp;
-	$wp->add_query_var('destination-unknown');
-	add_rewrite_rule('destination-unknown/?$', 'index.php?destination-unknown=1', 'top');
+	// global $wp;
+	// $wp->add_query_var('destination-unknown');
+	add_rewrite_rule('destination-unknown', 'index.php?destination-unknown=1', 'top');
 }
+add_action('init','destination_unknown_rewrite', 10, 0);
+
+
+// function custom_rewrite_rule() {
+//     add_rewrite_rule('destination-unknown','index.php?page_id=12&food=$matches[1]&variety=$matches[2]','top');
+//   }
+//   add_action('init', 'custom_rewrite_rule', 10, 0);
+//
+
 
 add_action('template_redirect','destination_unknown_template');
 function destination_unknown_template() {
@@ -345,9 +353,9 @@ function destination_unknown_template() {
 			'numberposts' => '1'
 		));
 		foreach($posts as $post) {
-			$link = get_permalink($post);
+			$randlink = get_permalink($post);
 		}
-		wp_redirect($link,307);
+		wp_redirect($randlink,307);
 		exit;
 	}
 }
