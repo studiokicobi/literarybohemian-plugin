@@ -5,7 +5,7 @@ Plugin Name: Custom Functions for The Literary Bohemian
 */
 
 
-/* Add Adobe fonts: Grad, three weights, Sofia Pro Semi-bold
+/* Add Adobe fonts
    ------------------------------------------------------------------ */
 function add_adobe_fonts() {
 	wp_enqueue_style( 'adobe_fonts', 'https://use.typekit.net/kzw7rfp.css' );
@@ -17,7 +17,6 @@ add_action( 'wp_enqueue_scripts', 'add_adobe_fonts' );
 
 /* Add menus
    ------------------------------------------------------------------ */
-
 	 if (function_exists('add_theme_support')) {
 		 add_theme_support('nav-menus');
 	 }
@@ -325,6 +324,21 @@ function add_cpt_to_taxonomy_archive( $query ) {
 add_filter( 'pre_get_posts', 'add_cpt_to_taxonomy_archive' );
 
 
+/* Add custom post types to archive pages
+   ------------------------------------------------------------------ */
+add_filter('pre_get_posts', 'query_post_type');
+function query_post_type($query) {
+  if( is_category() ) {
+    $post_type = get_query_var('post_type');
+    if($post_type)
+        $post_type = $post_type;
+    else
+        $post_type = array('nav_menu_item', 'post', 'poetry', 'postcard_prose', 'travel_notes', 'logbook');
+    $query->set('post_type',$post_type);
+    return $query;
+    }
+}
+
 
 /* Create destination unknown links (used in header)
    ------------------------------------------------------------------ */
@@ -340,7 +354,7 @@ function destination_unknown_template() {
 	if (get_query_var('destination-unknown') == 1) {
 
 		$posts = get_posts( array(
-			'post_type' => array('poetry', 'postcard_prose', 'travel_notes',),
+			'post_type' => array('poetry', 'postcard_prose',), // removed 'travel_notes', 
 			'post_status' => 'publish',
 			'orderby' => 'rand',
 			'numberposts' => '1',
@@ -433,67 +447,6 @@ function bidirectional_acf_update_value( $value, $post_id, $field  ) {
 add_filter('acf/update_value/name=related_posts', 'bidirectional_acf_update_value', 10, 3);
 
 
-
-// /*
-//  * Hide posts from Dashboard. We only use Custom Post Types.
-//  */
-// function lb_remove_menus()
-// {
-//
-// 	// remove_menu_page( 'index.php' );                  //Dashboard
-// 	// remove_menu_page( 'jetpack' );                    //Jetpack
-// 	remove_menu_page('edit.php');                   	 //Posts
-// 	// remove_menu_page( 'upload.php' );                 //Media
-// 	//remove_menu_page('edit.php?post_type=page');       //Pages
-// 	remove_menu_page('edit-comments.php');          	 //Comments
-// 	// remove_menu_page( 'themes.php' );                 //Appearance
-// 	// remove_menu_page( 'plugins.php' );                //Plugins
-// 	// remove_menu_page( 'users.php' );                  //Users
-// 	// remove_menu_page( 'tools.php' );                  //Tools
-// 	// remove_menu_page( 'options-general.php' );        //Settings
-//
-// }
-// add_action('admin_menu', 'lb_remove_menus');
-
-
-// /*
-//  * Reorder the dashboard menu items
-//  */
-// function custom_menu_order($menu_ord)
-// {
-// 	if (!$menu_ord) return true;
-// 	return array(
-// 		'index.php', // Dashboard
-// 		'upload.php', // Media
-//
-// 		'themes.php', // Appearance
-// 		'plugins.php', // Plugins
-// 		'users.php', // Users
-// 		'tools.php', // Tools
-// 		'options-general.php', // Settings
-//
-// 		// 'edit.php?post_type=poetry', // Poetry
-// 		'edit.php?post_type=page' // Pages
-//
-// 	);
-// }
-// add_filter('custom_menu_order', 'custom_menu_order');
-// add_filter('menu_order', 'custom_menu_order');
-
-
-/*
- * Rename Dashboard menu items
- */
-// add_filter('gettext', 'change_post_to_article');
-// add_filter('ngettext', 'change_post_to_article');
-//
-// function change_post_to_article($translated)
-// {
-// 	$translated = str_replace('Dashboard', 'Home', $translated);
-// 	$translated = str_replace('Page', 'Static Page', $translated);
-// 	return $translated;
-// }
-
-
+// The end.
 
 ?>
