@@ -109,6 +109,7 @@ function travel_notes_init()
 	$args = array(
 		'label' => 'Travel Notes',
 		'public' => true,
+		'has_archive' => true,
 		'show_ui' => true,
 		'capability_type' => 'post',
 		'hierarchical' => false,
@@ -142,6 +143,7 @@ function bio_init()
 	$args = array(
 		'label' => 'Author Bios',
 		'public' => true,
+		'has_archive' => false,
 		'show_ui' => true,
 		'capability_type' => 'post',
 		'hierarchical' => false,
@@ -173,6 +175,7 @@ function book_reviews_init()
 {
 	$args = array(
 		'label' => 'Book Reviews',
+		'has_archive' => true,
 		'public' => true,
 		'show_ui' => true,
 		'capability_type' => 'post',
@@ -206,6 +209,7 @@ function logbook_init()
 	$args = array(
 		'label' => 'Logbook Posts',
 		'public' => true,
+		'has_archive' => true,
 		'show_ui' => true,
 		'capability_type' => 'post',
 		'hierarchical' => false,
@@ -354,7 +358,7 @@ function destination_unknown_template() {
 	if (get_query_var('destination-unknown') == 1) {
 
 		$posts = get_posts( array(
-			'post_type' => array('poetry', 'postcard_prose',), // removed 'travel_notes', 
+			'post_type' => array('poetry', 'postcard_prose',), // removed 'travel_notes',
 			'post_status' => 'publish',
 			'orderby' => 'rand',
 			'numberposts' => '1',
