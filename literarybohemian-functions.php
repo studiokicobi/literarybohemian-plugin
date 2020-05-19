@@ -186,7 +186,7 @@ function book_reviews_init()
 		'rewrite' => array('slug' => 'book-reviews'),
 		'query_var' => true,
 		'menu_icon' => 'dashicons-book-alt',
-		'show_in_rest' => true,
+		'show_in_rest' => false,
 		'supports' => array(
 			'title',
 			'editor',
