@@ -10,10 +10,10 @@ Plugin Name: Custom Functions for The Literary Bohemian
 function custom_enqueue(){
 		// Adobe fonts
 		wp_enqueue_style( 'adobe_fonts', 'https://use.typekit.net/kzw7rfp.css' );
-		// Drop cap script
-		wp_enqueue_script('customjs', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/dropcap.min.js', 'true' );
 		// Global scripts
-		wp_enqueue_script('customjs', get_stylesheet_directory_uri() . '/js/global.js', array(), '1.0.0', 'true' );
+		wp_enqueue_script('customjs', get_stylesheet_directory_uri() . '/js/global-min.js', array(), '1.0.0', 'true' );
+		// Drop cap script
+		// wp_enqueue_script('customjs', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/dropcap.min.js', 'true' );
 }
 add_action('wp_enqueue_scripts', 'custom_enqueue');
 
