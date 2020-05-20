@@ -18,6 +18,12 @@ function custom_enqueue(){
 add_action('wp_enqueue_scripts', 'custom_enqueue');
 
 
+/* Remove the WP Custom Fields meta box for faster admin load times
+	 https://www.advancedcustomfields.com/blog/acf-pro-5-5-13-update/
+   ------------------------------------------------------------------ */
+add_filter('acf/settings/remove_wp_meta_box', '__return_true');
+
+
 /* Add menus
    ------------------------------------------------------------------ */
 	 if (function_exists('add_theme_support')) {
