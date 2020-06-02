@@ -245,6 +245,40 @@ function logbook_init()
 add_action('init', 'logbook_init');
 
 
+/* Create Editors' Notes Custom Post Type
+   ------------------------------------------------------------------ */
+function editors_notes_init()
+{
+	$args = array(
+		'label' => 'Editors’ Notes',
+		'public' => true,
+		'has_archive' => true,
+		'show_ui' => true,
+		'capability_type' => 'post',
+		'hierarchical' => false,
+		'rewrite' => array('slug' => 'editors-notes'),
+		'query_var' => true,
+		'menu_icon' => 'dashicons-yes-alt',
+		'show_in_rest' => true,
+		'taxonomies'  => array('category'),
+		'supports' => array(
+			'title',
+			'editor',
+			'excerpt',
+			'trackbacks',
+			'custom-fields',
+			'comments',
+			'revisions',
+			'thumbnail',
+			'author',
+			'page-attributes',
+		)
+	);
+	register_post_type('editors_notes', $args);
+}
+add_action('init', 'editors_notes_init');
+
+
 /* Add custom field column to dashboard:
  * add the author name to Poetry, Postcard Prose,
  * and Travel Notes custom post type lists.
