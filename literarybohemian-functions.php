@@ -159,7 +159,7 @@ function bio_init()
 		'rewrite' => array('slug' => 'bio'),
 		'query_var' => true,
 		'menu_icon' => 'dashicons-buddicons-replies',
-		'show_in_rest' => true,
+		// 'show_in_rest' => true,
 		'supports' => array(
 			'title',
 			'editor',
