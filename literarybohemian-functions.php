@@ -258,7 +258,7 @@ function editors_notes_init()
 		'hierarchical' => false,
 		'rewrite' => array('slug' => 'editors-notes'),
 		'query_var' => true,
-		'menu_icon' => 'dashicons-yes-alt',
+		'menu_icon' => 'dashicons-buddicons-community',
 		'show_in_rest' => true,
 		'taxonomies'  => array('category'),
 		'supports' => array(
@@ -278,6 +278,39 @@ function editors_notes_init()
 }
 add_action('init', 'editors_notes_init');
 
+
+/* Create Interviews Custom Post Type
+   ------------------------------------------------------------------ */
+function interviews_init()
+{
+	$args = array(
+		'label' => 'Interviews',
+		'public' => true,
+		'has_archive' => true,
+		'show_ui' => true,
+		'capability_type' => 'post',
+		'hierarchical' => false,
+		'rewrite' => array('slug' => 'interviews'),
+		'query_var' => true,
+		'menu_icon' => 'dashicons-format-chat',
+		'show_in_rest' => true,
+		'taxonomies'  => array('category'),
+		'supports' => array(
+			'title',
+			'editor',
+			'excerpt',
+			'trackbacks',
+			'custom-fields',
+			'comments',
+			'revisions',
+			'thumbnail',
+			'author',
+			'page-attributes',
+		)
+	);
+	register_post_type('interviews', $args);
+}
+add_action('init', 'interviews_init');
 
 /* Add custom field column to dashboard:
  * add the author name to Poetry, Postcard Prose,
