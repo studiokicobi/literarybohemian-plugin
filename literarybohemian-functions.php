@@ -527,6 +527,10 @@ function bidirectional_acf_update_value( $value, $post_id, $field  ) {
 add_filter('acf/update_value/name=related_posts', 'bidirectional_acf_update_value', 10, 3);
 
 
+// Remove default styles for A-Z Listing plugin used on Authors page
+add_filter( 'a-z-listing-add-styling', '__return_false' );
+
+
 // The end.
 
 ?>
