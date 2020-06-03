@@ -33,7 +33,8 @@ add_filter('acf/settings/remove_wp_meta_box', '__return_true');
 	 function tlb_menus() {
 		 register_nav_menus(
 			 array(
-				 'menu-1' => esc_html__( 'Primary', 'literarybohemian' ),
+				 'menu-0' => esc_html__( 'Footer Primary', 'literarybohemian' ),
+				 'menu-1' => esc_html__( 'Primary Menu', 'literarybohemian' ),
 				 'menu-2' => esc_html__( 'Secondary Menu', 'literarybohemian' ),
 				 'menu-3' => esc_html__( 'Tertiary Menu', 'literarybohemian' ),
 				 'menu-4' => esc_html__( 'Social Channels', 'literarybohemian' )
