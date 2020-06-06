@@ -246,18 +246,18 @@ function logbook_init()
 add_action('init', 'logbook_init');
 
 
-/* Create Editors' Notes Custom Post Type
+/* Create Issue Introductions Custom Post Type
    ------------------------------------------------------------------ */
-function editors_notes_init()
+function issue_introductions_init()
 {
 	$args = array(
-		'label' => 'Editors’ Notes',
+		'label' => 'Issue Introductions',
 		'public' => true,
 		'has_archive' => true,
 		'show_ui' => true,
 		'capability_type' => 'post',
 		'hierarchical' => false,
-		'rewrite' => array('slug' => 'editors-notes'),
+		'rewrite' => array('slug' => 'issue-introductions'),
 		'query_var' => true,
 		'menu_icon' => 'dashicons-buddicons-community',
 		'show_in_rest' => true,
@@ -275,9 +275,9 @@ function editors_notes_init()
 			'page-attributes',
 		)
 	);
-	register_post_type('editors_notes', $args);
+	register_post_type('issue_introductions', $args);
 }
-add_action('init', 'editors_notes_init');
+add_action('init', 'issue_introductions_init');
 
 
 /* Create Interviews Custom Post Type
