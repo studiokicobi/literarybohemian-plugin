@@ -214,36 +214,36 @@ add_action('init', 'book_reviews_init');
 
 /* Create Issue Introductions Custom Post Type
    ------------------------------------------------------------------ */
-function issue_introductions_init()
-{
-	$args = array(
-		'label' => 'Issue Introductions',
-		'public' => true,
-		'has_archive' => true,
-		'show_ui' => true,
-		'capability_type' => 'post',
-		'hierarchical' => false,
-		'rewrite' => array('slug' => 'issue-introductions'),
-		'query_var' => true,
-		'menu_icon' => 'dashicons-buddicons-community',
-		'show_in_rest' => true,
-		'taxonomies'  => array('category'),
-		'supports' => array(
-			'title',
-			'editor',
-			'excerpt',
-			'trackbacks',
-			'custom-fields',
-			'comments',
-			'revisions',
-			'thumbnail',
-			'author',
-			'page-attributes',
-		)
-	);
-	register_post_type('issue_introductions', $args);
-}
-add_action('init', 'issue_introductions_init');
+// function issue_introductions_init()
+// {
+// 	$args = array(
+// 		'label' => 'Issue Introductions',
+// 		'public' => true,
+// 		'has_archive' => true,
+// 		'show_ui' => true,
+// 		'capability_type' => 'post',
+// 		'hierarchical' => false,
+// 		'rewrite' => array('slug' => 'issue-introductions'),
+// 		'query_var' => true,
+// 		'menu_icon' => 'dashicons-buddicons-community',
+// 		'show_in_rest' => true,
+// 		'taxonomies'  => array('category'),
+// 		'supports' => array(
+// 			'title',
+// 			'editor',
+// 			'excerpt',
+// 			'trackbacks',
+// 			'custom-fields',
+// 			'comments',
+// 			'revisions',
+// 			'thumbnail',
+// 			'author',
+// 			'page-attributes',
+// 		)
+// 	);
+// 	register_post_type('issue_introductions', $args);
+// }
+// add_action('init', 'issue_introductions_init');
 
 
 /* Create Logbook Custom Post Type
