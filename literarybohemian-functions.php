@@ -223,7 +223,7 @@ function issue_introductions_init()
 		'show_ui' => true,
 		'capability_type' => 'post',
 		'hierarchical' => false,
-		'rewrite' => array('slug' => 'issues'),
+		'rewrite' => array('slug' => 'issue-introductions'),
 		'query_var' => true,
 		'menu_icon' => 'dashicons-buddicons-community',
 		'show_in_rest' => true,
