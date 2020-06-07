@@ -248,7 +248,7 @@ add_action('init', 'logbook_init');
 
 /* Create Issue Introductions Custom Post Type
    ------------------------------------------------------------------ */
-function issue_introductions_init()
+function issue_intros_init()
 {
 	$args = array(
 		'label' => 'Issue Introductions',
@@ -275,9 +275,9 @@ function issue_introductions_init()
 			'page-attributes',
 		)
 	);
-	register_post_type('issue_introductions', $args);
+	register_post_type('issue_intros', $args);
 }
-add_action('init', 'issue_introductions_init');
+add_action('init', 'issue_intros_init');
 
 
 /* Create Interviews Custom Post Type
