@@ -7,13 +7,14 @@ Plugin Name: Custom Functions for The Literary Bohemian
 
 /* Enqueue styles and scripts
    ------------------------------------------------------------------ */
-function custom_enqueue(){
-		// Adobe fonts
-		wp_enqueue_style( 'adobe_fonts', 'https://use.typekit.net/kzw7rfp.css' );
-		// Global scripts
-		wp_enqueue_script('customjs', get_stylesheet_directory_uri() . '/js/global-min.js', array(), '1.0.0', 'true' );
-		// Drop cap script
-		// wp_enqueue_script('customjs', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/dropcap.min.js', 'true' );
+function custom_enqueue()
+{
+	// Adobe fonts
+	wp_enqueue_style('adobe_fonts', 'https://use.typekit.net/kzw7rfp.css');
+	// Global scripts
+	wp_enqueue_script('customjs', get_stylesheet_directory_uri() . '/js/global-min.js', array(), '1.0.0', 'true');
+	// Drop cap script
+	// wp_enqueue_script('customjs', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/dropcap.min.js', 'true' );
 }
 add_action('wp_enqueue_scripts', 'custom_enqueue');
 
@@ -26,22 +27,23 @@ add_filter('acf/settings/remove_wp_meta_box', '__return_true');
 
 /* Add menus
    ------------------------------------------------------------------ */
-	 if (function_exists('add_theme_support')) {
-		 add_theme_support('nav-menus');
-	 }
+if (function_exists('add_theme_support')) {
+	add_theme_support('nav-menus');
+}
 
-	 function tlb_menus() {
-		 register_nav_menus(
-			 array(
-				 'menu-0' => esc_html__( 'Footer Primary', 'literarybohemian' ),
-				 'menu-1' => esc_html__( 'Primary Menu', 'literarybohemian' ),
-				 'menu-2' => esc_html__( 'Secondary Menu', 'literarybohemian' ),
-				 'menu-3' => esc_html__( 'Tertiary Menu', 'literarybohemian' ),
-				 'menu-4' => esc_html__( 'Social Channels', 'literarybohemian' )
-			 )
-		 );
-	 }
-	 add_action( 'init', 'tlb_menus' );
+function tlb_menus()
+{
+	register_nav_menus(
+		array(
+			'menu-0' => esc_html__('Footer Primary', 'literarybohemian'),
+			'menu-1' => esc_html__('Primary Menu', 'literarybohemian'),
+			'menu-2' => esc_html__('Secondary Menu', 'literarybohemian'),
+			'menu-3' => esc_html__('Tertiary Menu', 'literarybohemian'),
+			'menu-4' => esc_html__('Social Channels', 'literarybohemian')
+		)
+	);
+}
+add_action('init', 'tlb_menus');
 
 
 /* Create Poetry Custom Post Type
@@ -144,6 +146,40 @@ function travel_notes_init()
 	register_post_type('travel_notes', $args);
 }
 add_action('init', 'travel_notes_init');
+
+
+/* Create Visual Poetry Custom Post Type
+   ------------------------------------------------------------------ */
+function visual_poetry_init()
+{
+	$args = array(
+		'label' => 'Visual Poetry',
+		'public' => true,
+		'has_archive' => true,
+		'show_ui' => true,
+		'capability_type' => 'post',
+		'hierarchical' => false,
+		'rewrite' => array('slug' => 'visual-poetry'),
+		'query_var' => true,
+		'menu_icon' => 'dashicons-visibility',
+		'taxonomies'  => array('category', 'post_tag'),
+		//'show_in_rest' => true,
+		'supports' => array(
+			'title',
+			'editor',
+			'excerpt',
+			'trackbacks',
+			'custom-fields',
+			'comments',
+			'revisions',
+			'thumbnail',
+			'author',
+			'page-attributes',
+		)
+	);
+	register_post_type('visual_poetry', $args);
+}
+add_action('init', 'visual_poetry_init');
 
 
 /* Create Author Bio Custom Post Type
@@ -392,58 +428,62 @@ add_action('admin_init', 'my_column_init');
  * @refer https://wordpress.stackexchange.com/a/285162/90061
  */
 
-function add_cpt_to_taxonomy_archive( $query ) {
+function add_cpt_to_taxonomy_archive($query)
+{
 
-  if ( is_tag() && $query->is_archive() && empty( $query->query_vars['suppress_filters'] ) ) {
+	if (is_tag() && $query->is_archive() && empty($query->query_vars['suppress_filters'])) {
 
-  $query->set( 'post_type', array(
-       'post', 'postcard_prose', 'poetry', 'travel_notes',
-    ));
-  }
-  return $query;
+		$query->set('post_type', array(
+			'post', 'postcard_prose', 'poetry', 'travel_notes',
+		));
+	}
+	return $query;
 }
-add_filter( 'pre_get_posts', 'add_cpt_to_taxonomy_archive' );
+add_filter('pre_get_posts', 'add_cpt_to_taxonomy_archive');
 
 
 /* Add custom post types to archive pages
    ------------------------------------------------------------------ */
 add_filter('pre_get_posts', 'query_post_type');
-function query_post_type($query) {
-  if( is_category() ) {
-    $post_type = get_query_var('post_type');
-    if($post_type)
-        $post_type = $post_type;
-    else
-        $post_type = array('nav_menu_item', 'post', 'poetry', 'postcard_prose', 'travel_notes', 'logbook');
-    $query->set('post_type',$post_type);
-    return $query;
-    }
+function query_post_type($query)
+{
+	if (is_category()) {
+		$post_type = get_query_var('post_type');
+		if ($post_type)
+			$post_type = $post_type;
+		else
+			$post_type = array('nav_menu_item', 'post', 'poetry', 'postcard_prose', 'travel_notes', 'logbook');
+		$query->set('post_type', $post_type);
+		return $query;
+	}
 }
 
 
 /* Create destination unknown links (used in header)
    ------------------------------------------------------------------ */
-add_action('init','destination_unknown_add_rewrite');
-function destination_unknown_add_rewrite() {
+add_action('init', 'destination_unknown_add_rewrite');
+function destination_unknown_add_rewrite()
+{
 	global $wp;
 	$wp->add_query_var('destination-unknown');
 	add_rewrite_rule('destination-unknown/?$', 'index.php?destination-unknown=1', 'top');
 }
 
-add_action('template_redirect','destination_unknown_template');
-function destination_unknown_template() {
+add_action('template_redirect', 'destination_unknown_template');
+function destination_unknown_template()
+{
 	if (get_query_var('destination-unknown') == 1) {
 
-		$posts = get_posts( array(
+		$posts = get_posts(array(
 			'post_type' => array('poetry', 'postcard_prose',), // removed 'travel_notes',
 			'post_status' => 'publish',
 			'orderby' => 'rand',
 			'numberposts' => '1',
 		));
-		foreach($posts as $post) {
+		foreach ($posts as $post) {
 			$link = get_permalink($post);
 		}
-		wp_redirect($link,307);
+		wp_redirect($link, 307);
 		exit;
 	}
 }
@@ -453,7 +493,8 @@ function destination_unknown_template() {
    https://www.advancedcustomfields.com/resources/bidirectional-relationships/
    ------------------------------------------------------------------ */
 
-function bidirectional_acf_update_value( $value, $post_id, $field  ) {
+function bidirectional_acf_update_value($value, $post_id, $field)
+{
 
 	// vars
 	$field_name = $field['name'];
@@ -462,27 +503,27 @@ function bidirectional_acf_update_value( $value, $post_id, $field  ) {
 
 	// bail early if this filter was triggered from the update_field() function called within the loop below
 	// - this prevents an inifinte loop
-	if( !empty($GLOBALS[ $global_name ]) ) return $value;
+	if (!empty($GLOBALS[$global_name])) return $value;
 
 	// set global variable to avoid inifite loop
 	// - could also remove_filter() then add_filter() again, but this is simpler
-	$GLOBALS[ $global_name ] = 1;
+	$GLOBALS[$global_name] = 1;
 
 	// loop over selected posts and add this $post_id
-	if( is_array($value) ) {
+	if (is_array($value)) {
 
-		foreach( $value as $post_id2 ) {
+		foreach ($value as $post_id2) {
 
 			// load existing related posts
 			$value2 = get_field($field_name, $post_id2, false);
 
 			// allow for selected posts to not contain a value
-			if( empty($value2) ) {
+			if (empty($value2)) {
 				$value2 = array();
 			}
 
 			// bail early if the current $post_id is already found in selected post's $value2
-			if( in_array($post_id, $value2) ) continue;
+			if (in_array($post_id, $value2)) continue;
 
 			// append the current $post_id to the selected post's 'related_posts' value
 			$value2[] = $post_id;
@@ -495,23 +536,23 @@ function bidirectional_acf_update_value( $value, $post_id, $field  ) {
 	// find posts which have been removed
 	$old_value = get_field($field_name, $post_id, false);
 
-	if( is_array($old_value) ) {
-		foreach( $old_value as $post_id2 ) {
+	if (is_array($old_value)) {
+		foreach ($old_value as $post_id2) {
 
 			// bail early if this value has not been removed
-			if( is_array($value) && in_array($post_id2, $value) ) continue;
+			if (is_array($value) && in_array($post_id2, $value)) continue;
 
 			// load existing related posts
 			$value2 = get_field($field_name, $post_id2, false);
 
 			// bail early if no value
-			if( empty($value2) ) continue;
+			if (empty($value2)) continue;
 
 			// find the position of $post_id within $value2 so we can remove it
 			$pos = array_search($post_id, $value2);
 
 			// remove
-			unset( $value2[ $pos] );
+			unset($value2[$pos]);
 
 			// update the un-selected post's value (use field's key for performance)
 			update_field($field_key, $value2, $post_id2);
@@ -519,20 +560,18 @@ function bidirectional_acf_update_value( $value, $post_id, $field  ) {
 	}
 
 	// reset global varibale to allow this filter to function as per normal
-	$GLOBALS[ $global_name ] = 0;
+	$GLOBALS[$global_name] = 0;
 
 	// return
-    return $value;
+	return $value;
 }
 
 add_filter('acf/update_value/name=related_posts', 'bidirectional_acf_update_value', 10, 3);
 
 
 // Remove default styles for A-Z Listing plugin used on Authors page
-add_filter( 'a-z-listing-add-styling', '__return_false' );
+add_filter('a-z-listing-add-styling', '__return_false');
 
 
 
 // The end.
-
-?>
