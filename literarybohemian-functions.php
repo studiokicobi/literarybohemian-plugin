@@ -574,12 +574,12 @@ add_filter('a-z-listing-add-styling', '__return_false');
 
 
 // Allow non-breaking spaces and other special characters in ACF WYSIWYG editor
-function tlb_allow_nbsp_in_tinymce($init)
-{
-	$init['entities'] = '160,nbsp,38,amp,60,lt,62,gt';
-	$init['entity_encoding'] = 'named';
-	return $init;
-}
-add_filter('tiny_mce_before_init', 'tlb_allow_nbsp_in_tinymce');
+// function tlb_allow_nbsp_in_tinymce($init)
+// {
+// 	$init['entities'] = '160,nbsp,38,amp,60,lt,62,gt';
+// 	$init['entity_encoding'] = 'named';
+// 	return $init;
+// }
+// add_filter('tiny_mce_before_init', 'tlb_allow_nbsp_in_tinymce');
 
 // The end.
