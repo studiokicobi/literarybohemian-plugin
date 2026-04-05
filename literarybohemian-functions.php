@@ -1,5 +1,9 @@
 <?php
 
+if (! defined('ABSPATH')) {
+	exit;
+}
+
 /*
 Plugin Name: Custom Functions for The Literary Bohemian
 */
@@ -11,8 +15,6 @@ function custom_enqueue()
 {
 	// Adobe fonts
 	wp_enqueue_style('adobe_fonts', 'https://use.typekit.net/ram1cpi.css');
-	// Global scripts
-	wp_enqueue_script('customjs', get_stylesheet_directory_uri() . '/js/global-min.js', array(), '1.0.0', 'true');
 	// Drop cap script
 	// wp_enqueue_script('customjs', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/dropcap.min.js', 'true' );
 }
@@ -357,20 +359,32 @@ add_action('init', 'interviews_init');
 function add_acf_columns($columns)
 {
 	return array_merge($columns, array(
-		'name' => __('Author')
+		'name' => esc_html__('Author', 'literarybohemian')
 	));
 }
+
+function tlb_render_name_column($column, $post_id)
+{
+	if ('name' !== $column) {
+		return;
+	}
+
+	$name = get_post_meta($post_id, 'name', true);
+
+	if ('' === $name) {
+		return;
+	}
+
+	echo esc_html($name);
+}
+
 // Poetry
 // ------------------------------------------------------------------ */
 add_filter('manage_poetry_posts_columns', 'add_acf_columns');
 
 function poetry_custom_column($column, $post_id)
 {
-	switch ($column) {
-		case 'name':
-			echo get_post_meta($post_id, 'name', true);
-			break;
-	}
+	tlb_render_name_column($column, $post_id);
 }
 add_action('manage_poetry_posts_custom_column', 'poetry_custom_column', 10, 2);
 
@@ -380,11 +394,7 @@ add_filter('manage_postcard_prose_posts_columns', 'add_acf_columns');
 
 function postcard_prose_custom_column($column, $post_id)
 {
-	switch ($column) {
-		case 'name':
-			echo get_post_meta($post_id, 'name', true);
-			break;
-	}
+	tlb_render_name_column($column, $post_id);
 }
 add_action('manage_postcard_prose_posts_custom_column', 'postcard_prose_custom_column', 10, 2);
 
@@ -394,11 +404,7 @@ add_filter('manage_travel_notes_posts_columns', 'add_acf_columns');
 
 function travel_notes_custom_column($column, $post_id)
 {
-	switch ($column) {
-		case 'name':
-			echo get_post_meta($post_id, 'name', true);
-			break;
-	}
+	tlb_render_name_column($column, $post_id);
 }
 add_action('manage_travel_notes_posts_custom_column', 'travel_notes_custom_column', 10, 2);
 
@@ -428,34 +434,55 @@ add_action('admin_init', 'my_column_init');
  * @refer https://wordpress.stackexchange.com/a/285162/90061
  */
 
+function tlb_is_frontend_main_query($query)
+{
+	if (! ($query instanceof WP_Query) || is_admin() || ! $query->is_main_query()) {
+		return false;
+	}
+
+	if (defined('REST_REQUEST') && REST_REQUEST) {
+		return false;
+	}
+
+	return true;
+}
+
 function add_cpt_to_taxonomy_archive($query)
 {
-
-	if (is_tag() && $query->is_archive() && empty($query->query_vars['suppress_filters'])) {
-
-		$query->set('post_type', array(
-			'post', 'postcard_prose', 'poetry', 'travel_notes',
-		));
+	if (! tlb_is_frontend_main_query($query)) {
+		return;
 	}
-	return $query;
+
+	if (! $query->is_tag() || ! $query->is_archive() || $query->get('suppress_filters')) {
+		return;
+	}
+
+	$query->set('post_type', array(
+		'post',
+		'postcard_prose',
+		'poetry',
+		'travel_notes',
+	));
 }
-add_filter('pre_get_posts', 'add_cpt_to_taxonomy_archive');
+add_action('pre_get_posts', 'add_cpt_to_taxonomy_archive');
 
 
 /* Add custom post types to archive pages
    ------------------------------------------------------------------ */
-add_filter('pre_get_posts', 'query_post_type');
+add_action('pre_get_posts', 'query_post_type');
 function query_post_type($query)
 {
-	if (is_category()) {
-		$post_type = get_query_var('post_type');
-		if ($post_type)
-			$post_type = $post_type;
-		else
-			$post_type = array('nav_menu_item', 'post', 'poetry', 'postcard_prose', 'travel_notes', 'logbook');
-		$query->set('post_type', $post_type);
-		return $query;
+	if (! tlb_is_frontend_main_query($query) || ! $query->is_category()) {
+		return;
 	}
+
+	$post_type = $query->get('post_type');
+
+	if (empty($post_type)) {
+		$post_type = array('post', 'poetry', 'postcard_prose', 'travel_notes', 'logbook');
+	}
+
+	$query->set('post_type', $post_type);
 }
 
 
@@ -472,20 +499,30 @@ function destination_unknown_add_rewrite()
 add_action('template_redirect', 'destination_unknown_template');
 function destination_unknown_template()
 {
-	if (get_query_var('destination-unknown') == 1) {
+	if (1 !== (int) get_query_var('destination-unknown')) {
+		return;
+	}
 
-		$posts = get_posts(array(
-			'post_type' => array('poetry', 'postcard_prose',), // removed 'travel_notes',
-			'post_status' => 'publish',
-			'orderby' => 'rand',
-			'numberposts' => '1',
-		));
-		foreach ($posts as $post) {
-			$link = get_permalink($post);
-		}
-		wp_redirect($link, 307);
+	$posts = get_posts(array(
+		'post_type' => array('poetry', 'postcard_prose'), // removed 'travel_notes',
+		'post_status' => 'publish',
+		'orderby' => 'rand',
+		'posts_per_page' => 1,
+		'fields' => 'ids',
+		'ignore_sticky_posts' => true,
+		'no_found_rows' => true,
+	));
+
+	$destination_id = reset($posts);
+	$link = $destination_id ? get_permalink($destination_id) : '';
+
+	if ($link) {
+		wp_safe_redirect($link, 307, 'literarybohemian-plugin');
 		exit;
 	}
+
+	wp_safe_redirect(home_url('/'), 302, 'literarybohemian-plugin');
+	exit;
 }
 
 
@@ -495,6 +532,13 @@ function destination_unknown_template()
 
 function bidirectional_acf_update_value($value, $post_id, $field)
 {
+	if (! function_exists('get_field') || ! function_exists('update_field')) {
+		return $value;
+	}
+
+	if (empty($field['name']) || empty($field['key'])) {
+		return $value;
+	}
 
 	// vars
 	$field_name = $field['name'];
